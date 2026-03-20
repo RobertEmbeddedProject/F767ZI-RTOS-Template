@@ -24,8 +24,8 @@ Get-ChildItem "C:\Program Files (x86)" -Recurse -Filter arm-none-eabi-gcc.exe -E
 
 then run:
 
-#              $env:Path += ";YourFilePathHereKeepSemicolon"
-#              arm-none-eabi-gcc --version
+###              $env:Path += ";YourFilePathHereKeepSemicolon"
+###              arm-none-eabi-gcc --version
 
 ## Build
 cmake --build build
