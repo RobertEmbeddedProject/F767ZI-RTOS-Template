@@ -16,7 +16,8 @@ STM32F767ZI + ILI9341 + LVGL
 - 3V3  -> VCC / LED
 - GND  -> GND
 
-## Make sure ARM Compiler is installed
+## Make sure ARM Compiler is installed, as well as STM32Cube Core extension
+## Also install CMAKE if not already from CMAKE website
 Open terminal and find ARM toolchain (usually comes with cubeIDE):
 Get-ChildItem "C:\ST" -Recurse -Filter arm-none-eabi-gcc.exe -ErrorAction SilentlyContinue
 Get-ChildItem "C:\Program Files" -Recurse -Filter arm-none-eabi-gcc.exe -ErrorAction SilentlyContinue

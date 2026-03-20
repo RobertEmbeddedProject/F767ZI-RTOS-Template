@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_SYSTEM_PROCESSOR arm)
-set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-
 #project(LLVM_Testing_Program C ASM)
 project(guitar_pedal C ASM)
 
