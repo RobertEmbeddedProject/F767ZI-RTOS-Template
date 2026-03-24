@@ -28,7 +28,9 @@ then run:
 ###              $env:Path += ";YourFilePathHereKeepSemicolon"
 ###              arm-none-eabi-gcc --version
 
-## Build
+## Build and Flash
 cmake --build build
+or, CTRL+SHFT+B to Build
+Fn+F5 to Flash
 
 

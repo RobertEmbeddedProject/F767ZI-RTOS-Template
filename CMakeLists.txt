@@ -72,7 +72,7 @@ set(PROJECT_SOURCES
     Src/stm32f7xx_it.c
     Src/syscalls.c
     Src/system_stm32f7xx.c
-    Inc/stm32f7xx_hal_spi.c
+    Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c
 
     BSP/Nucleo_F767ZI_GPIO.c
     BSP/Nucleo_F767ZI_Init.c
