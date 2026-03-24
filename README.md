@@ -1,20 +1,10 @@
-# guitar_pedal
+# PROJECT_NAME
 
-STM32F767ZI + ILI9341 + LVGL
+STM32F767ZI 
 
 ## Hardware
 - Board: NUCLEO-F767ZI
-- Display: 3.2" ILI9341 SPI TFT
-- Interface: SPI1, write-only
 
-## LCD wiring
-- PA5  -> SCK
-- PA7  -> SDI / MOSI
-- PD14 -> CS
-- PD15 -> DC
-- PF12 -> RESET
-- 3V3  -> VCC / LED
-- GND  -> GND
 
 ## Make sure ARM Compiler is installed, as well as STM32Cube Core extension
 ## Also install CMAKE if not already from CMAKE website
@@ -29,6 +19,12 @@ then run:
 ###              arm-none-eabi-gcc --version
 
 ## Build and Flash
+do NOT use cmake -B build -S .
+
+First time run:
+cmake --preset stm32-debug
+cmake --build --preset stm32-debug
+
 cmake --build build
 or, CTRL+SHFT+B to Build
 Fn+F5 to Flash

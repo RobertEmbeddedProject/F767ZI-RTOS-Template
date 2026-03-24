@@ -1,19 +1,28 @@
 #include "main.h"
-#include <stdint.h>             //provides uint8 etc fixed width
-#include <stddef.h>            //provides ptrs, array size utilities
+#include "rob_defs.h"
+#include <stdint.h>                 //provides uint8 etc fixed width
+#include <stddef.h>                 //provides ptrs, array size utilities
 #include <FreeRTOS.h>
-#include <Nucleo_F767ZI_Init.h>  //Textbook hardware init "HWInit();"
-//#include <Nucleo_F767ZI_GPIO.h> //Textbook board support header
-#include <stm32f7xx_hal.h>      //HAL APIs for GPIO, UART, SPI, I2C, timers,
-#include <task.h>               //vTask APIs
+//#include <Nucleo_F767ZI_Init.h>   //Textbook hardware init "HWInit();"
+//#include <Nucleo_F767ZI_GPIO.h>   //Textbook board support header
+#include <stm32f7xx_hal_gpio.h>     //ST Hal
+#include <stm32f7xx_hal.h>          //ST HAL
+#include <task.h>                   //vTask APIs
 #include <SEGGER_SYSVIEW.h>
 
 void TestTask(void* nothing);
 
 int main(void)
 {
-	HWInit();
-    SEGGER_SYSVIEW_Conf();    //start SystemView
+	HAL_Init();
+    __HAL_RCC_GPIOB_CLK_ENABLE(); //Enable GPIO Port B Clock
+    __HAL_RCC_GPIOD_CLK_ENABLE(); //Enable GPIO Port D Clock
+    __HAL_RCC_GPIOE_CLK_ENABLE(); //Enable GPIO Port E Clock
+    __HAL_RCC_GPIOF_CLK_ENABLE(); //Enable GPIO Port F Clock
+    __HAL_RCC_GPIOG_CLK_ENABLE(); //Enable GPIO Port G Clock
+    
+    SEGGER_SYSVIEW_Conf();        //start SystemView
+    LED_init();                   //initialize LED output
         
     if (xTaskCreate(TestTask, "TestTask", 128, NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS){
          while(1); }
@@ -30,9 +39,35 @@ int main(void)
 
 void TestTask(void* nothing){
     while(1){
-        vTaskDelay(4000/ portTICK_PERIOD_MS);
-        uint8_t num = 14;
-        SEGGER_SYSVIEW_PrintfHost("%d",num);
+        
+        for(int i=0; i<19; i++){
+            SEGGER_SYSVIEW_PrintfHost("i=%d", i);
+            LED_Blink(i);
+            /*if(i==19){
+                for(int j=19; j>=0; j--){
+                    SEGGER_SYSVIEW_PrintfHost("j=%d", j);
+                    LED_Blink(j);
+                }
+                i=0;
+            }*/
+        }
+        HAL_GPIO_WritePin(stat_leds[0].port, stat_leds[0].pin, GPIO_PIN_SET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[0].port, stat_leds[0].pin, GPIO_PIN_RESET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[1].port, stat_leds[1].pin, GPIO_PIN_SET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[1].port, stat_leds[1].pin, GPIO_PIN_RESET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[2].port, stat_leds[2].pin, GPIO_PIN_SET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[2].port, stat_leds[2].pin, GPIO_PIN_RESET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[3].port, stat_leds[3].pin, GPIO_PIN_SET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(stat_leds[3].port, stat_leds[3].pin, GPIO_PIN_RESET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+            
+        
     }
 }
-

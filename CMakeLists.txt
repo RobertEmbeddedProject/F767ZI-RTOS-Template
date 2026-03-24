@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 #project(LLVM_Testing_Program C ASM)
-project(guitar_pedal C ASM)
+project(LED_Testing C ASM)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -55,7 +55,6 @@ add_compile_options(
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/Inc
-    ${CMAKE_SOURCE_DIR}/BSP
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F7xx/Include
     ${CMAKE_SOURCE_DIR}/Drivers/STM32F7xx_HAL_Driver/Inc
@@ -68,15 +67,12 @@ include_directories(
 
 set(PROJECT_SOURCES
     Src/main.c
+    Src/rob_defs.c
     Src/stm32f7xx_hal_msp.c
     Src/stm32f7xx_it.c
     Src/syscalls.c
     Src/system_stm32f7xx.c
     Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c
-
-    BSP/Nucleo_F767ZI_GPIO.c
-    BSP/Nucleo_F767ZI_Init.c
-    BSP/UartQuickDirtyInit.c
 
     Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c
     Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c
