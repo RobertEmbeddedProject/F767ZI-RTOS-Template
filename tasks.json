@@ -4,11 +4,11 @@
     {
       "label": "Build stm32-debug",
       "type": "shell",
-      "command": "cmake",
+      "command": "powershell",
       "args": [
-        "--build",
-        "--preset",
-        "stm32-debug"
+        "-NoProfile",
+        "-Command",
+        "cmake --build --preset stm32-debug 2>&1 | Select-String -Pattern 'error','warning' -SimpleMatch"
       ],
       "group": {
         "kind": "build",
@@ -16,7 +16,12 @@
       },
       "problemMatcher": [
         "$gcc"
-      ]
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
     }
   ]
 }
