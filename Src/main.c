@@ -32,7 +32,6 @@ int main(void)
     if (xTaskCreate(BlinkTask, "BlinkTask", 128, NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS){
          while(1); }
 
-
     vTaskStartScheduler();
 
 	//if you've wound up here, there is likely an issue with overrunning the freeRTOS heap
@@ -44,9 +43,13 @@ int main(void)
 
 void BlinkTask(void* nothing){
     int delay = 15;
+
+    for(int i=0; i<5; i++){
+        blink_status();
+    }
+
     while(1){
         for(int i=0; i<19; i++){
-            SEGGER_SYSVIEW_PrintfHost("i=%d", i);
             LED_ON(i);
             vTaskDelay(delay / portTICK_PERIOD_MS);
             if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_RESET){
@@ -58,7 +61,6 @@ void BlinkTask(void* nothing){
             
             if(i==18){
                 for(int j=18; j>=0; j--){
-                    SEGGER_SYSVIEW_PrintfHost("j=%d", j);
                     LED_ON(j);
                     vTaskDelay(delay / portTICK_PERIOD_MS);
                     if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_RESET){

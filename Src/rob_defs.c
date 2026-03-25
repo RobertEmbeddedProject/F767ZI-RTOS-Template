@@ -95,9 +95,10 @@ void blink_status(){
     HAL_GPIO_WritePin(status_led[1].port, status_led[1].pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(status_led[2].port, status_led[2].pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(status_led[3].port, status_led[3].pin, GPIO_PIN_SET);
-    vTaskDelay(200 / portTICK_PERIOD_MS);
+    vTaskDelay(50 / portTICK_PERIOD_MS);
     HAL_GPIO_WritePin(status_led[0].port, status_led[0].pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(status_led[1].port, status_led[1].pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(status_led[2].port, status_led[2].pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(status_led[3].port, status_led[3].pin, GPIO_PIN_RESET);
+    vTaskDelay(50 / portTICK_PERIOD_MS);
 }
