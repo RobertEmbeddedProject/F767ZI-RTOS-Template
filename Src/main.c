@@ -39,35 +39,15 @@ int main(void)
 
 void TestTask(void* nothing){
     while(1){
-        
-        for(int i=0; i<19; i++){
+        for(int i=0; i<23; i++){
             SEGGER_SYSVIEW_PrintfHost("i=%d", i);
             LED_Blink(i);
-            /*if(i==19){
-                for(int j=19; j>=0; j--){
+            if(i==22){
+                for(int j=22; j>=0; j--){
                     SEGGER_SYSVIEW_PrintfHost("j=%d", j);
                     LED_Blink(j);
                 }
-                i=0;
-            }*/
+            }
         }
-        HAL_GPIO_WritePin(stat_leds[0].port, stat_leds[0].pin, GPIO_PIN_SET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[0].port, stat_leds[0].pin, GPIO_PIN_RESET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[1].port, stat_leds[1].pin, GPIO_PIN_SET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[1].port, stat_leds[1].pin, GPIO_PIN_RESET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[2].port, stat_leds[2].pin, GPIO_PIN_SET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[2].port, stat_leds[2].pin, GPIO_PIN_RESET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[3].port, stat_leds[3].pin, GPIO_PIN_SET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-        HAL_GPIO_WritePin(stat_leds[3].port, stat_leds[3].pin, GPIO_PIN_RESET);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
-            
-        
     }
 }
