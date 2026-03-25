@@ -1,19 +1,7 @@
 #include "main.h"
 #include "rob_defs.h"
-#include <stdbool.h>
-#include <stdint.h>                 //provides uint8 etc fixed width
-#include <stddef.h>                 //provides ptrs, array size utilities
-#include <FreeRTOS.h>
-//#include <Nucleo_F767ZI_Init.h>   //Textbook hardware init "HWInit();"
-//#include <Nucleo_F767ZI_GPIO.h>   //Textbook board support header
-#include <stm32f7xx_hal_gpio.h>     //ST Hal
-#include <stm32f7xx_hal.h>          //ST HAL
-#include <task.h>                   //vTask APIs
-#include <semphr.h>                 //semaphore APIs
-#include <SEGGER_SYSVIEW.h>
 
 void BlinkTask(void* nothing);
-void ButtonTask(void* nothing);
 
 //create storage for a pointer to a semaphore
 //SemaphoreHandle_t semPtr = NULL;
@@ -42,8 +30,6 @@ int main(void)
 
         
     if (xTaskCreate(BlinkTask, "BlinkTask", 128, NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS){
-         while(1); }
-    if (xTaskCreate(ButtonTask, "ButtonTask", 128, NULL, tskIDLE_PRIORITY + 2, NULL) != pdPASS){
          while(1); }
 
 
@@ -86,14 +72,3 @@ void BlinkTask(void* nothing){
         }
     }
 }
-
-void ButtonTask(void* nothing){
-    while(1){
-        if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_SET){
-            SEGGER_SYSVIEW_PrintfHost("PRESSED");
-        }
-        else{vTaskDelay(10 / portTICK_PERIOD_MS);}
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-

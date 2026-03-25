@@ -1,26 +1,7 @@
-#include "main.h"
 #include "rob_defs.h"
-#include <stdbool.h>
-#include <stdint.h>             //provides uint8 etc fixed width
-#include <stddef.h>            //provides ptrs, array size utilities
-#include <FreeRTOS.h>
-//#include <Nucleo_F767ZI_Init.h>  //Textbook hardware init "HWInit();"
-//#include <Nucleo_F767ZI_GPIO.h> //Textbook board support header
-#include <stm32f7xx_hal_gpio.h>   //ST Hal
-#include <stm32f7xx_hal.h>      //ST HAL
-#include <task.h>               //vTask APIs
-#include <SEGGER_SYSVIEW.h>
 
 //extern volatile bool paused;   //extern tells other files that this exists
                                //never initialize when declaring as extern
-
-void LED_ON(uint16_t position){
-    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_SET);
-}
-
-void LED_OFF(uint16_t position){
-    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
-}
 
 
 void LED_init(void){  //reference Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_gpio.h
@@ -100,3 +81,23 @@ static const LED status_led[4] = {
     {GPIOF, GPIO_PIN_14},  // P2 Wht3
     {GPIOE, GPIO_PIN_12},  // P3 Wht4
 };
+
+void LED_ON(uint16_t position){
+    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_SET);
+}
+
+void LED_OFF(uint16_t position){
+    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
+}
+
+void blink_status(){
+    HAL_GPIO_WritePin(status_led[0].port, status_led[0].pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(status_led[1].port, status_led[1].pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(status_led[2].port, status_led[2].pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(status_led[3].port, status_led[3].pin, GPIO_PIN_SET);
+    vTaskDelay(200 / portTICK_PERIOD_MS);
+    HAL_GPIO_WritePin(status_led[0].port, status_led[0].pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(status_led[1].port, status_led[1].pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(status_led[2].port, status_led[2].pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(status_led[3].port, status_led[3].pin, GPIO_PIN_RESET);
+}
