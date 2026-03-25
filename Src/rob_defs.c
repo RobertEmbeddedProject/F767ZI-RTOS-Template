@@ -11,14 +11,12 @@
 #include <SEGGER_SYSVIEW.h>
 
 void LED_Blink(uint16_t position){
-    uint16_t delay = 200;
-    HAL_GPIO_WritePin(leds[position].port, leds[position].pin, GPIO_PIN_SET);
+    uint16_t delay = 10;
+    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_SET);
     vTaskDelay(delay / portTICK_PERIOD_MS);
-    HAL_GPIO_WritePin(leds[position].port, leds[position].pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
     vTaskDelay(delay / portTICK_PERIOD_MS);
 }
-
-
 
 void LED_init(void){  //reference Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_gpio.h
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -44,6 +42,20 @@ void LED_init(void){  //reference Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_gpi
 
     GPIO_InitStruct.Pin = GPIO_PIN_14 | GPIO_PIN_9;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+}
+
+void button_init(void){
+    /*
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    GPIO_InitStruct.Pin = GPIO_PIN_0
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+
+                 //Port  //Struct
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    */
 }
 
 //checks if task creation was successful

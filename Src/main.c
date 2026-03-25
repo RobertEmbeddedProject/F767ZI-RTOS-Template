@@ -39,11 +39,11 @@ int main(void)
 
 void TestTask(void* nothing){
     while(1){
-        for(int i=0; i<23; i++){
+        for(int i=0; i<19; i++){
             SEGGER_SYSVIEW_PrintfHost("i=%d", i);
             LED_Blink(i);
-            if(i==22){
-                for(int j=22; j>=0; j--){
+            if(i==18){
+                for(int j=18; j>=0; j--){
                     SEGGER_SYSVIEW_PrintfHost("j=%d", j);
                     LED_Blink(j);
                 }
