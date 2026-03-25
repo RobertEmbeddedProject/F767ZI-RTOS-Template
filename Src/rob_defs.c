@@ -11,32 +11,17 @@
 #include <task.h>               //vTask APIs
 #include <SEGGER_SYSVIEW.h>
 
-extern volatile bool paused;   //extern tells other files that this exists
+//extern volatile bool paused;   //extern tells other files that this exists
                                //never initialize when declaring as extern
 
-void LED_Blink(uint16_t position, bool paused){
-    uint16_t delay = 500;
+void LED_ON(uint16_t position){
     HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_SET);
-    vTaskDelay(delay / portTICK_PERIOD_MS);
-    
-        HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
-    
-    vTaskDelay(delay / portTICK_PERIOD_MS);
 }
 
-/*
-void LED_Blink(uint16_t position, bool stop){
-    uint16_t delay = 3000;
-    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_SET);
-    vTaskDelay(delay / portTICK_PERIOD_MS);
-    if(stop != 0){
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-    else{
-        HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
-        vTaskDelay(delay / portTICK_PERIOD_MS);
-    }
-}*/
+void LED_OFF(uint16_t position){
+    HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
+}
+
 
 void LED_init(void){  //reference Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_gpio.h
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -69,9 +54,8 @@ void button_init(void){
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 
     GPIO_InitStruct.Pin = GPIO_PIN_13;
-    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
 
                  //Port  //Struct
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -97,13 +81,13 @@ static const LED tuning_led[19] = {
     {GPIOE, GPIO_PIN_4},   // P5 Yel2
     {GPIOE, GPIO_PIN_5},   // P6 Yel3
     {GPIOE, GPIO_PIN_6},   // P7 Yel4
-    {GPIOF, GPIO_PIN_13},   // P8 Grn1
-    {GPIOE, GPIO_PIN_9},    // P9 Grn2
-    {GPIOE, GPIO_PIN_11},   // P10 Grn3
+    {GPIOF, GPIO_PIN_13},  // P8 Grn1
+    {GPIOE, GPIO_PIN_9},   // P9 Grn2
+    {GPIOE, GPIO_PIN_11},  // P10 Grn3
     {GPIOE, GPIO_PIN_13},  // P11 Yel5
     {GPIOF, GPIO_PIN_15},  // P12 Yel6
     {GPIOG, GPIO_PIN_14},  // P13 Yel7
-    {GPIOG, GPIO_PIN_9},    // P14 Yel8
+    {GPIOG, GPIO_PIN_9},   // P14 Yel8
     {GPIOE, GPIO_PIN_14},  // P15 Red5
     {GPIOE, GPIO_PIN_15},  // P16 Red6
     {GPIOB, GPIO_PIN_10},  // P17 Red7

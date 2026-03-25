@@ -15,8 +15,6 @@
 void BlinkTask(void* nothing);
 void ButtonTask(void* nothing);
 
-extern volatile bool paused;
-
 //create storage for a pointer to a semaphore
 //SemaphoreHandle_t semPtr = NULL;
 //xSemaphoreGive(semPtr);
@@ -59,20 +57,33 @@ int main(void)
 }
 
 void BlinkTask(void* nothing){
-    bool stop = 0;
+    int delay = 15;
     while(1){
-        //if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_RESET){
-            for(int i=0; i<19; i++){
-                SEGGER_SYSVIEW_PrintfHost("i=%d", i);
-                LED_Blink(i,stop);
-                if(i==18){
-                    for(int j=18; j>=0; j--){
-                        SEGGER_SYSVIEW_PrintfHost("j=%d", j);
-                        LED_Blink(j,stop);
+        for(int i=0; i<19; i++){
+            SEGGER_SYSVIEW_PrintfHost("i=%d", i);
+            LED_ON(i);
+            vTaskDelay(delay / portTICK_PERIOD_MS);
+            if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_RESET){
+                LED_OFF(i);
+            }
+            else{
+                i--;
+            }
+            
+            if(i==18){
+                for(int j=18; j>=0; j--){
+                    SEGGER_SYSVIEW_PrintfHost("j=%d", j);
+                    LED_ON(j);
+                    vTaskDelay(delay / portTICK_PERIOD_MS);
+                    if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_RESET){
+                        LED_OFF(j);
+                    }
+                    else{
+                        j++;
                     }
                 }
             }
-        //}
+        }
     }
 }
 
@@ -81,7 +92,8 @@ void ButtonTask(void* nothing){
         if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_SET){
             SEGGER_SYSVIEW_PrintfHost("PRESSED");
         }
-        else{vTaskDelay(5 / portTICK_PERIOD_MS);}
+        else{vTaskDelay(10 / portTICK_PERIOD_MS);}
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 
