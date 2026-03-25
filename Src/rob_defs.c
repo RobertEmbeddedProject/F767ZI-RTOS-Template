@@ -11,13 +11,16 @@
 #include <task.h>               //vTask APIs
 #include <SEGGER_SYSVIEW.h>
 
-void LED_Blink(uint16_t position, bool stop){
+extern volatile bool paused;   //extern tells other files that this exists
+                               //never initialize when declaring as extern
+
+void LED_Blink(uint16_t position, bool paused){
     uint16_t delay = 500;
     HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_SET);
     vTaskDelay(delay / portTICK_PERIOD_MS);
-    //if(xSemaphoreTake(semPtr, portMAX_DELAY) != pdPASS){
+    
         HAL_GPIO_WritePin(tuning_led[position].port, tuning_led[position].pin, GPIO_PIN_RESET);
-    //}
+    
     vTaskDelay(delay / portTICK_PERIOD_MS);
 }
 

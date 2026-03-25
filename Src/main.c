@@ -15,11 +15,20 @@
 void BlinkTask(void* nothing);
 void ButtonTask(void* nothing);
 
+extern volatile bool paused;
+
 //create storage for a pointer to a semaphore
-SemaphoreHandle_t semPtr = NULL;
+//SemaphoreHandle_t semPtr = NULL;
+//xSemaphoreGive(semPtr);
+//if(xSemaphoreTake(semPtr, portMAX_DELAY) != pdPASS){
+    //}
 
 int main(void)
 {
+    //create a semaphore using the FreeRTOS Heap
+	//semPtr = xSemaphoreCreateBinary();
+	//assert_param(semPtr != NULL);
+
 	HAL_Init();
     __HAL_RCC_GPIOB_CLK_ENABLE(); //Enable GPIO Port B Clock
     __HAL_RCC_GPIOC_CLK_ENABLE(); //Enable GPIO Port C Clock
@@ -31,11 +40,7 @@ int main(void)
     SEGGER_SYSVIEW_Conf();        //start SystemView
     HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
     LED_init();                   //initialize LED output
-
-    //create a semaphore using the FreeRTOS Heap
-	semPtr = xSemaphoreCreateBinary();
-	assert_param(semPtr != NULL);
-
+    button_init();
 
         
     if (xTaskCreate(BlinkTask, "BlinkTask", 128, NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS){
@@ -75,7 +80,6 @@ void ButtonTask(void* nothing){
     while(1){
         if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)==GPIO_PIN_SET){
             SEGGER_SYSVIEW_PrintfHost("PRESSED");
-            xSemaphoreGive(semPtr);
         }
         else{vTaskDelay(5 / portTICK_PERIOD_MS);}
     }
